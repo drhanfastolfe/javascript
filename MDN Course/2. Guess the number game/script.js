@@ -51,7 +51,12 @@ function checkGuess()
     guessField.Focus();
 }
 
-guessSubmit.addEventListener('keypress', checkGuess);
+guessField.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        checkGuess();
+    }
+})
+guessSubmit.addEventListener('click', checkGuess);
 
 function setGameOver()
 {
@@ -67,10 +72,10 @@ function resetGame()
 {
     guessCount = 1;
 
-    const resetParas = document.querySelector('.resultParas p');
+    const resetParas = document.querySelectorAll('.resultParas p');
     for (let i = 0; i < resetParas.length; i++)
     {
-        resultParas[i].textContent = '';
+        resetParas[i].textContent = '';
     }
 
     resetbutton.parentNode.removeChild(resetbutton);
