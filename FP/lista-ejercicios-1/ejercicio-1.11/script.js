@@ -10,6 +10,7 @@
 // 3.3 Si false -> erroresUsuario++ y cambia imagen / finaliza el juego si errores = 5
 // 3.4 Si true -> reemplaza asterisco por letraUs donde corresponda
 // 3.5 Compeuba si quedan asteriscos / si false- > fin - si true -> continua
+
 import { diccionario } from './diccionario.js';
 
 const imagen = document.querySelector('.imagen');
@@ -17,12 +18,14 @@ const palabra = document.querySelector('.palabra');
 const errores = document.querySelector('.errores');
 const intentos = document.querySelector('.intentos');
 const campoAdivinar = document.querySelector('.campoAdivinar');
-const enviarAdivinar = document.getElementById('eviarAdivinar');
+const enviarAdivinar = document.getElementById('enviarAdivinar');
 
-let palabraSecreta = valorRandomArray(diccionario);
+let palabraSecreta = 'patata'; //valorRandomArray(diccionario);
 let palabraMostrar = asteriscos(palabraSecreta).split('');
-let letrasUsuario; // Array para guardar letras correctas del usuario
-let letrasErroneas; // Array con errores del usuario
+let letrasUsuario = []; // Array para guardar letras correctas del usuario
+let numErrores = 0; // Array con errores del usuario
+let letrasErrores = []; // guarda letras erroneas
+
 function valorRandomArray(array) // Devulve un valor al azar de un array
 {
     const random = Math.floor(Math.random() * array.length);
@@ -57,10 +60,9 @@ function contieneLetra(letra, palabra) // Comprueba si una palabra tiene una let
     return contiene;
 }
 
-
 function mostrarPalabra(letraUsuario, palabraMostrar) // Remplaza los asteriscos por la letra acertada
 {
-    for (let i = 0; i < palabraSecreta.length(); i++)
+    for (let i = 0; i < palabraSecreta.length; i++)
     {
         if (letraUsuario === palabraSecreta.charAt(i))
         {
@@ -73,22 +75,40 @@ function mostrarPalabra(letraUsuario, palabraMostrar) // Remplaza los asteriscos
 
 palabra.textContent = 'Palabra: ' + palabraMostrar.join('');
 
-enviarAdivinar.addEventListener('submit', compruebaLetra); // No entiendo porqué no arranca
+enviarAdivinar.addEventListener('click', compruebaLetra); // No entiendo porqué no arranca
 
 function compruebaLetra() // Función princpipal
 {
     let letraUsuario = campoAdivinar.value.toLowerCase();
-    letrasUsuario.push(letraUsuario);
 
-    if (contieneLetra(letraUsuario, palabraSecreta))
+    if (!contieneLetra(letraUsuario, letrasUsuario.join('')))
     {
-        if (!contieneLetra(letraUsuario, letrasUsuario.join('')))
+        letrasUsuario.push(letraUsuario);
+
+        if (numErrores > 0)
+            {
+                errores.textContent = 'Errores: ' + letrasErrores.join(' ');
+                intentos.textContent = 'Intentos ' + (6 - numErrores);
+            }   
+
+        if (contieneLetra(letraUsuario, palabraSecreta))
         {
+            //todo mostrar reemplazar asteriscos
             palabraMostrar =  mostrarPalabra(letraUsuario, palabraMostrar);
             palabra.textContent = 'Palabra: ' + palabraMostrar.join('');
+            
+            
+               
         }
+        else
+        {
+            numErrores++;
+            // todo cambiar imagen
 
-        
+            if (numErrores == 5)
+            {
+                //todo finalizar
+            }
+        }
     }
-
 }
