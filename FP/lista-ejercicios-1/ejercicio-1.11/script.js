@@ -10,6 +10,7 @@
 // 3.3 Si false -> erroresUsuario++ y cambia imagen / finaliza el juego si errores = 5
 // 3.4 Si true -> reemplaza asterisco por letraUs donde corresponda
 // 3.5 Compeuba si quedan asteriscos / si false- > fin - si true -> continua
+import { diccionario } from './diccionario.js';
 
 const imagen = document.querySelector('.imagen');
 const palabra = document.querySelector('.palabra');
@@ -18,7 +19,7 @@ const intentos = document.querySelector('.intentos');
 const campoAdivinar = document.querySelector('.campoAdivinar');
 const enviarAdivinar = document.getElementById('eviarAdivinar');
 
-let palabraSecreta = 'patata'; // valorRandomArray(diccionario);
+let palabraSecreta = valorRandomArray(diccionario);
 let palabraMostrar = asteriscos(palabraSecreta).split('');
 let letrasUsuario; // Array para guardar letras correctas del usuario
 let letrasErroneas; // Array con errores del usuario
@@ -72,7 +73,7 @@ function mostrarPalabra(letraUsuario, palabraMostrar) // Remplaza los asteriscos
 
 palabra.textContent = 'Palabra: ' + palabraMostrar.join('');
 
-enviarAdivinar.addEventListener('click', compruebaLetra); // No entiendo porqué no arranca
+enviarAdivinar.addEventListener('submit', compruebaLetra); // No entiendo porqué no arranca
 
 function compruebaLetra() // Función princpipal
 {
