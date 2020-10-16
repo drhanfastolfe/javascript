@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 11</title>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>El juego del ahorcado</h1>
+    <p>
+        Intenta adivinar la palabra. Puedes fallar un máximo de
+        5 veces, al sexto fallo pierdes.
+    </p>
+
+    <img class="imagen" src="img/1.png" alt="ahorcado" width="140" height="141">
+    
+    <div class="parasResul">
+        <p id="palabra"></p> <!--Palabra: _ _ _ _ _-->
+        <p class="errores"></p> <!--Errores: E F S K-->
+        <p class="intentos"></p> <!--Fallos: 4-->
+    </div>
+    
+    <div class="form">
+        <label for="adivinar">Tu letra:</label>
+        <input class="campoAdivinar" type="text">
+        <input type="submit" id="enviarAdivinar" value="Probar">
+    </div>
+</body>
+</html>
