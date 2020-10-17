@@ -17,6 +17,7 @@ const imagen = document.querySelector('.imagen');
 const palabra = document.querySelector('.palabra');
 const errores = document.querySelector('.errores');
 const intentos = document.querySelector('.intentos');
+const fin = document.querySelector('.fin');
 const campoAdivinar = document.querySelector('.campoAdivinar');
 const enviarAdivinar = document.getElementById('enviarAdivinar');
 
@@ -73,7 +74,9 @@ function mostrarPalabra(letraUsuario, palabraMostrar) // Remplaza los asteriscos
     return palabraMostrar;
 }
 
-palabra.textContent = 'Palabra: ' + palabraMostrar.join('');
+palabra.textContent = 'Palabra: ' + palabraMostrar.join('').toUpperCase();
+errores.textContent = 'Errores: ' + letrasErrores.join(' ').toUpperCase();
+intentos.textContent = 'Intentos ' + (6 - numErrores);
 
 enviarAdivinar.addEventListener('click', compruebaLetra); // No entiendo porqué no arranca
 
@@ -85,30 +88,27 @@ function compruebaLetra() // Función princpipal
     {
         letrasUsuario.push(letraUsuario);
 
-        if (numErrores > 0)
-            {
-                errores.textContent = 'Errores: ' + letrasErrores.join(' ');
-                intentos.textContent = 'Intentos ' + (6 - numErrores);
-            }   
-
         if (contieneLetra(letraUsuario, palabraSecreta))
         {
-            //todo mostrar reemplazar asteriscos
             palabraMostrar =  mostrarPalabra(letraUsuario, palabraMostrar);
-            palabra.textContent = 'Palabra: ' + palabraMostrar.join('');
+            palabra.textContent = 'Palabra: ' + palabraMostrar.join('').toUpperCase();
             
-            
-               
+            //todo comrpobar si quedan asteriscos y finalizar
         }
         else
         {
+            letrasErrores.push(letraUsuario);
             numErrores++;
-            // todo cambiar imagen
+            imagen.src = './img/' + (numErrores + 1).toString() + '.png';
 
-            if (numErrores == 5)
+            if (numErrores == 6)
             {
                 //todo finalizar
+                fin.textContent = '¡Se acabó! Has perdido :(';
             }
         }
+
+        errores.textContent = 'Errores: ' + letrasErrores.join(' ').toUpperCase();
+        intentos.textContent = 'Intentos ' + (6 - numErrores);
     }
 }
