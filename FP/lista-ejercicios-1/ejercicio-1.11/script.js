@@ -21,11 +21,13 @@ const fin = document.querySelector('.fin');
 const campoAdivinar = document.querySelector('.campoAdivinar');
 const enviarAdivinar = document.getElementById('enviarAdivinar');
 
-let palabraSecreta = 'patata'; //valorRandomArray(diccionario);
+let palabraSecreta = valorRandomArray(diccionario);
 let palabraMostrar = asteriscos(palabraSecreta).split('');
 let letrasUsuario = []; // Array para guardar letras correctas del usuario
 let numErrores = 0; // Array con errores del usuario
 let letrasErrores = []; // guarda letras erroneas
+
+let botonReiniciar;
 
 function valorRandomArray(array) // Devulve un valor al azar de un array
 {
@@ -74,11 +76,50 @@ function mostrarPalabra(letraUsuario, palabraMostrar) // Remplaza los asteriscos
     return palabraMostrar;
 }
 
+function finDeJuego()
+{
+    campoAdivinar.disabled = true;
+    enviarAdivinar.disabled = true;
+    botonReiniciar = document.createElement('button');
+    botonReiniciar.textContent = 'Reiniciar juego';
+    document.body.append(botonReiniciar);
+    botonReiniciar.addEventListener('click', reiniciarJuego);
+}
+
+function reiniciarJuego()
+{
+    palabraSecreta = valorRandomArray(diccionario);
+    palabraMostrar = asteriscos(palabraSecreta).split('');
+    letrasUsuario = [];
+    numErrores = 0; 
+    letrasErrores = [];
+
+    palabra.textContent = 'Palabra: ' + palabraMostrar.join('').toUpperCase();
+    errores.textContent = 'Errores: ' + letrasErrores.join(' ').toUpperCase();
+    intentos.textContent = 'Intentos ' + (6 - numErrores);
+    fin.textContent = '';
+
+    botonReiniciar.parentNode.removeChild(botonReiniciar);
+
+    campoAdivinar.disabled = false;
+    enviarAdivinar.disabled = false;
+
+    campoAdivinar.focus();
+}
+
 palabra.textContent = 'Palabra: ' + palabraMostrar.join('').toUpperCase();
 errores.textContent = 'Errores: ' + letrasErrores.join(' ').toUpperCase();
 intentos.textContent = 'Intentos ' + (6 - numErrores);
 
-enviarAdivinar.addEventListener('click', compruebaLetra); // No entiendo porqué no arranca
+campoAdivinar.focus();
+
+campoAdivinar.addEventListener('keypress', function (e)
+{
+    if (e.key === 'Enter') {
+        compruebaLetra();
+    }
+})
+enviarAdivinar.addEventListener('click', compruebaLetra); 
 
 function compruebaLetra() // Función princpipal
 {
@@ -93,7 +134,12 @@ function compruebaLetra() // Función princpipal
             palabraMostrar =  mostrarPalabra(letraUsuario, palabraMostrar);
             palabra.textContent = 'Palabra: ' + palabraMostrar.join('').toUpperCase();
             
-            //todo comrpobar si quedan asteriscos y finalizar
+            if (!contieneLetra('*', palabraMostrar.join('')))
+            {
+                fin.textContent = '¡Se acabó! Has ganado :)';
+
+                finDeJuego();
+            }
         }
         else
         {
@@ -103,12 +149,20 @@ function compruebaLetra() // Función princpipal
 
             if (numErrores == 6)
             {
-                //todo finalizar
                 fin.textContent = '¡Se acabó! Has perdido :(';
+
+                finDeJuego();
             }
         }
 
         errores.textContent = 'Errores: ' + letrasErrores.join(' ').toUpperCase();
         intentos.textContent = 'Intentos ' + (6 - numErrores);
     }
+    else
+    {
+        alert('Ya has introducido la ' + letraUsuario.toUpperCase());
+    }
+
+    campoAdivinar.value = '';
+    campoAdivinar.focus();
 }
