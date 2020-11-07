@@ -28,7 +28,7 @@ function ejercicio1()
         return listaReturn;
     }
 
-    document.write('Resultado ejercicio 1: ' + listaParAsc);        
+   document.write('Resultado ejercicio 1: ' + listaParAsc + '<br>');        
 }
 
 ejercicio1();
@@ -47,6 +47,67 @@ ejercicio1();
 function ejercicio2()
 {
     let lista = [100,433,99,16,40.5,67.8,650,12.4];
+    let listaCuadrada = [];
+    let listaRaiz = [];
+    let listaRedArriba = [];
+    let listaRedAbajo = [];
+    let listaPi = [];
+    let maximo = lista[0];
+    let minimo = lista[0];
 
+    for (let i = 0; i < lista.length; i++)
+    {
+        listaCuadrada.push(lista[i] * lista[i]);
+    }
+
+    for (let i = 0; i < lista.length; i++)
+    {
+        listaRaiz.push(Math.sqrt(lista[i]));
+    }
+
+    for (let i = 0; i < lista.length; i++)
+    {
+        listaRedArriba.push(Math.ceil(lista[i]));
+    }
+
+    for (let i = 0; i < lista.length; i++)
+    {
+        listaRedAbajo.push(Math.floor(lista[i]));
+    }
+
+    for (let i = 0; i < lista.length; i++)
+    {
+        listaPi.push(Math.round(lista[i] * Math.PI * 10) / 10);
+    }
+    
+    for (let i = 1; i < lista.length; i++)
+    {
+        if (lista[i] > maximo)
+        {
+            maximo = lista[i];    
+        }
+    }
+
+    for (let i = 1; i < lista.length; i++)
+    {
+        if (lista[i] < minimo)
+        {
+            minimo = lista[i];    
+        }
+    }
+
+    document.write
+    (
+        '<br>Resultados ejercicio 2:' + '<br>' +
+        '<br>- Cuadrados perfectos: ' + listaCuadrada + '<br>' +
+        '- Raices cuadradas: ' + listaRaiz + '<br>' +
+        '- Redondeos a entero máximo: ' + listaRedArriba + '<br>' +
+        '- Redondeos a entero mínimo: ' + listaRedAbajo + '<br>' +
+        '- Multiplicados por PI: ' + listaPi + '<br>' +
+        '- Número máximo: ' + maximo + '<br>' +
+        '- Número mínimo: ' + minimo + '<br>'
+    );
     
 }
+
+ejercicio2();
